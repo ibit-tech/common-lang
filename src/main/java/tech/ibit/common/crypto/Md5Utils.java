@@ -1,6 +1,5 @@
 package tech.ibit.common.crypto;
 
-import lombok.experimental.UtilityClass;
 import org.apache.commons.codec.binary.Hex;
 
 import java.security.MessageDigest;
@@ -9,10 +8,12 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Md5工具类
  *
- * @author IBIT TECH
+ * @author IBIT程序猿
  */
-@UtilityClass
 public class Md5Utils {
+
+    private Md5Utils() {
+    }
 
     /**
      * md5 加密
@@ -21,7 +22,7 @@ public class Md5Utils {
      * @return 密文
      * @throws NoSuchAlgorithmException 不支持md5算法
      */
-    public String encrypt(String source) throws NoSuchAlgorithmException {
+    public static String encrypt(String source) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
 
         byte[] bytes;
@@ -41,7 +42,7 @@ public class Md5Utils {
      * @return 密文
      * @throws NoSuchAlgorithmException 不支持md5算法
      */
-    public String encryptLowerCase(String source) throws NoSuchAlgorithmException {
+    public static String encryptLowerCase(String source) throws NoSuchAlgorithmException {
         return encrypt(source).toLowerCase();
     }
 
@@ -53,7 +54,7 @@ public class Md5Utils {
      * @return 是否相等
      * @throws NoSuchAlgorithmException 不支持md5算法
      */
-    public boolean verify(String source, String encrypted) throws NoSuchAlgorithmException {
+    public static boolean verify(String source, String encrypted) throws NoSuchAlgorithmException {
         return encrypt(source).equalsIgnoreCase(encrypted);
     }
 }

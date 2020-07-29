@@ -1,8 +1,5 @@
 package tech.ibit.common.collection;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.junit.Test;
 
 import java.util.*;
@@ -12,7 +9,7 @@ import static org.junit.Assert.*;
 /**
  * CollectionUtils测试用例
  *
- * @author IBIT TECH
+ * @author IBIT程序猿
  */
 public class CollectionUtilsTest {
 
@@ -152,12 +149,42 @@ public class CollectionUtilsTest {
                 new User(3, "user3", TYPE_1));
     }
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
     private class User {
         private Integer userId;
         private String name;
         private int type;
+
+        public User(Integer userId, String name, int type) {
+            this.userId = userId;
+            this.name = name;
+            this.type = type;
+        }
+
+        public User() {
+        }
+
+        public Integer getUserId() {
+            return userId;
+        }
+
+        public void setUserId(Integer userId) {
+            this.userId = userId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
     }
 }

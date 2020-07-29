@@ -1,16 +1,16 @@
 package tech.ibit.common.collection;
 
-import lombok.experimental.UtilityClass;
-
 import java.util.*;
 
 /**
  * 集合工具类
  *
- * @author IBIT TECH
+ * @author IBIT程序猿
  */
-@UtilityClass
 public class CollectionUtils {
+
+    private CollectionUtils() {
+    }
 
     /**
      * List转Map
@@ -21,7 +21,7 @@ public class CollectionUtils {
      * @param <V>      值类型
      * @return Map
      */
-    public <T, V> Map<T, V> toMap(List<V> list, IdGetter<T, V> idGetter) {
+    public static <T, V> Map<T, V> toMap(List<V> list, IdGetter<T, V> idGetter) {
         if (isEmpty(list)) {
             return Collections.emptyMap();
         }
@@ -39,7 +39,7 @@ public class CollectionUtils {
      * @param <V>      值类型
      * @return LinkedMap
      */
-    public <T, V> Map<T, V> toLinkedMap(List<V> list, IdGetter<T, V> idGetter) {
+    public static <T, V> Map<T, V> toLinkedMap(List<V> list, IdGetter<T, V> idGetter) {
         if (isEmpty(list)) {
             return Collections.emptyMap();
         }
@@ -57,7 +57,7 @@ public class CollectionUtils {
      * @param <V> 值类型
      * @return 值列表
      */
-    public <T, V> List<V> toList(Map<T, V> map, List<T> ids) {
+    public static <T, V> List<V> toList(Map<T, V> map, List<T> ids) {
         if (isEmpty(map) || isEmpty(ids)) {
             return Collections.emptyList();
         }
@@ -80,7 +80,7 @@ public class CollectionUtils {
      * @param <V>      值类型
      * @return 分组后Map
      */
-    public <T, V> Map<T, List<V>> grouping(List<V> list, IdGetter<T, V> idGetter) {
+    public static <T, V> Map<T, List<V>> grouping(List<V> list, IdGetter<T, V> idGetter) {
         if (isEmpty(list)) {
             return Collections.emptyMap();
         }
@@ -102,7 +102,7 @@ public class CollectionUtils {
      * @param <V>      值类型
      * @return 分组后LinkedMap
      */
-    public <T, V> Map<T, List<V>> groupingToLinkedMap(List<V> list, IdGetter<T, V> idGetter) {
+    public static <T, V> Map<T, List<V>> groupingToLinkedMap(List<V> list, IdGetter<T, V> idGetter) {
         if (isEmpty(list)) {
             return Collections.emptyMap();
         }
@@ -124,7 +124,7 @@ public class CollectionUtils {
      * @param <V> 值类型
      * @return 子Map
      */
-    public <T, V> Map<T, V> getSubMap(Map<T, V> map, List<T> ids) {
+    public static <T, V> Map<T, V> getSubMap(Map<T, V> map, List<T> ids) {
 
         if (isEmpty(map) || isEmpty(ids)) {
             return Collections.emptyMap();
@@ -148,7 +148,7 @@ public class CollectionUtils {
      * @param <V> 值类型
      * @return 子LinkedMap
      */
-    public <T, V> Map<T, V> getSubLinkedMap(Map<T, V> map, List<T> ids) {
+    public static <T, V> Map<T, V> getSubLinkedMap(Map<T, V> map, List<T> ids) {
         if (isEmpty(map) || isEmpty(ids)) {
             return Collections.emptyMap();
         }
@@ -168,7 +168,7 @@ public class CollectionUtils {
      * @param collection 集合
      * @return 判断结果
      */
-    public boolean isEmpty(Collection collection) {
+    public static boolean isEmpty(Collection collection) {
         return null == collection || collection.isEmpty();
     }
 
@@ -178,7 +178,7 @@ public class CollectionUtils {
      * @param collection 集合
      * @return 判断结果
      */
-    public boolean isNotEmpty(Collection collection) {
+    public static boolean isNotEmpty(Collection collection) {
         return !isEmpty(collection);
     }
 
@@ -188,7 +188,7 @@ public class CollectionUtils {
      * @param map Map
      * @return 判断结果
      */
-    public boolean isEmpty(Map map) {
+    public static boolean isEmpty(Map map) {
         return null == map || map.isEmpty();
     }
 
@@ -198,7 +198,7 @@ public class CollectionUtils {
      * @param map Map
      * @return 判断结果
      */
-    public boolean isNotEmpty(Map map) {
+    public static boolean isNotEmpty(Map map) {
         return !isEmpty(map);
     }
 

@@ -1,6 +1,5 @@
 package tech.ibit.common.lang;
 
-import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,12 +8,12 @@ import java.util.List;
 /**
  * 字符串工具类
  *
- * @author IBIT TECH
- *
+ * @author IBIT程序猿
  */
-@UtilityClass
 public class StringUtils extends org.apache.commons.lang.StringUtils {
 
+    private StringUtils() {
+    }
 
     /**
      * 字符串转int列表
@@ -23,7 +22,7 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
      * @param split  分隔符
      * @return int列表
      */
-    public List<Integer> toIntList(String source, String split) {
+    public static List<Integer> toIntList(String source, String split) {
         source = trimToNull(source);
         if (null == source) {
             return Collections.emptyList();
@@ -45,7 +44,7 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
      * @param source 字符串
      * @return int列表
      */
-    public List<Integer> toIntList(String source) {
+    public static List<Integer> toIntList(String source) {
         return toIntList(source, ",");
     }
 }

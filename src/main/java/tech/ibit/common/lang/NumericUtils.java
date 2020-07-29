@@ -1,22 +1,23 @@
 package tech.ibit.common.lang;
 
-import lombok.experimental.UtilityClass;
 
 /**
  * 数字工具类
  *
- * @author IBIT TECH
+ * @author IBIT程序猿
  */
-@UtilityClass
 public class NumericUtils {
 
+    private NumericUtils() {
+    }
+
     /**
      * 判断数字是否为空
      *
      * @param value 值
      * @return 是否为空
      */
-    public boolean isEmpty(Integer value) {
+    public static boolean isEmpty(Integer value) {
         return null == value || 0 >= value;
     }
 
@@ -26,7 +27,7 @@ public class NumericUtils {
      * @param value 值
      * @return 是否为非空
      */
-    public boolean isNotEmpty(Integer value) {
+    public static boolean isNotEmpty(Integer value) {
         return null != value && value > 0;
     }
 
@@ -36,7 +37,7 @@ public class NumericUtils {
      * @param value 值
      * @return 是否为空
      */
-    public boolean isEmpty(Long value) {
+    public static boolean isEmpty(Long value) {
         return null == value || 0 >= value;
     }
 
@@ -46,7 +47,7 @@ public class NumericUtils {
      * @param value 值
      * @return 是否为非空
      */
-    public boolean isNotEmpty(Long value) {
+    public static boolean isNotEmpty(Long value) {
         return null != value && value > 0;
     }
 
@@ -56,7 +57,7 @@ public class NumericUtils {
      * @param value 值
      * @return 是否为空
      */
-    public boolean isEmpty(Double value) {
+    public static boolean isEmpty(Double value) {
         return null == value || 0 >= value;
     }
 
@@ -66,7 +67,7 @@ public class NumericUtils {
      * @param value 值
      * @return 是否为非空
      */
-    public boolean isNotEmpty(Double value) {
+    public static boolean isNotEmpty(Double value) {
         return null != value && value > 0;
     }
 

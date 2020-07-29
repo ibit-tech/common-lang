@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 /**
  * Md5Utils 测试用例
  *
- * @author IBIT TECH
+ * @author IBIT程序猿
  */
 public class Md5UtilsTest {
 

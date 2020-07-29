@@ -3,7 +3,7 @@ package tech.ibit.common.collection;
 /**
  * ID获取
  *
- * @author IBIT TECH
+ * @author IBIT程序猿
  */
 @FunctionalInterface
 public interface IdGetter<T, V> {

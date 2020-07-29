@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * NumericUtils工具类
  *
- * @author IBIT TECH
+ * @author IBIT程序猿
  */
 public class NumericUtilsTest {
 

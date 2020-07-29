@@ -1,6 +1,5 @@
 package tech.ibit.common.http;
 
-import lombok.experimental.UtilityClass;
 import org.apache.commons.lang.StringUtils;
 import tech.ibit.common.collection.CollectionUtils;
 
@@ -18,33 +17,35 @@ import java.util.regex.Pattern;
 /**
  * Http工具类
  *
- * @author IBIT TECH
+ * @author IBIT程序猿
  *
  */
-@UtilityClass
 public class HttpUtils {
 
-    private final String X_REAL_IP = "X-Real-IP";
-    private final String X_FORWARDED_FOR = "X-Forwarded-For";
-    private final String PROXY_CLIENT_IP = "Proxy-Client-IP";
-    private final String WL_PROXY_CLIENT_IP = "WL-Proxy-Client-IP";
-    private final String UNKNOWN = "unknown";
-    private final String CONTENT_DISPOSITION = "content-disposition";
-    private final String FILENAME = "filename";
-    private final String PATH_SEPARATOR = "/";
-    private final String HEADER_SEPARATOR = ";";
-    private final String DEFAULT_CHARSET = "utf-8";
-    private final String EQUAL_SEPARATOR = "=";
-    private final String EMPTY_STR = "";
-    private final String AND_SEPARATOR = "&";
-    private final int NAME_INDEX = 0;
-    private final int VALUE_INDEX = 1;
-    private final String DOMAIN_REGEX = "\\s*,\\s*";
-    private final int NAME_ONLY_LENGTH = 1;
-    private final int NAME_VALUE_LENGTH = 2;
+    private static final String X_REAL_IP = "X-Real-IP";
+    private static final String X_FORWARDED_FOR = "X-Forwarded-For";
+    private static final String PROXY_CLIENT_IP = "Proxy-Client-IP";
+    private static final String WL_PROXY_CLIENT_IP = "WL-Proxy-Client-IP";
+    private static final String UNKNOWN = "unknown";
+    private static final String CONTENT_DISPOSITION = "content-disposition";
+    private static final String FILENAME = "filename";
+    private static final String PATH_SEPARATOR = "/";
+    private static final String HEADER_SEPARATOR = ";";
+    private static final String DEFAULT_CHARSET = "utf-8";
+    private static final String EQUAL_SEPARATOR = "=";
+    private static final String EMPTY_STR = "";
+    private static final String AND_SEPARATOR = "&";
+    private static final int NAME_INDEX = 0;
+    private static final int VALUE_INDEX = 1;
+    private static final String DOMAIN_REGEX = "\\s*,\\s*";
+    private static final int NAME_ONLY_LENGTH = 1;
+    private static final int NAME_VALUE_LENGTH = 2;
 
-    private final String SPECIAL_CHAR_REGEX = "[+ /?%#&=]";
-    private final String IGNORE_VALUE = "**";
+    private static final String SPECIAL_CHAR_REGEX = "[+ /?%#&=]";
+    private static final String IGNORE_VALUE = "**";
+
+    private HttpUtils() {
+    }
 
     /**
      * 获取真实ip（经过nginx后）
@@ -52,7 +53,7 @@ public class HttpUtils {
      * @param request 请求
      * @return 真实ip
      */
-    public String getRealIp(HttpServletRequest request) {
+    public static String getRealIp(HttpServletRequest request) {
         String ip = request.getHeader(X_REAL_IP);
         if (StringUtils.isBlank(ip) || isIpUnknown(ip)) {
             ip = request.getHeader(X_FORWARDED_FOR);
@@ -75,7 +76,7 @@ public class HttpUtils {
      * @param ip ip
      * @return 是否为未知ip
      */
-    private boolean isIpUnknown(String ip) {
+    private static boolean isIpUnknown(String ip) {
         return UNKNOWN.equalsIgnoreCase(ip);
     }
 
@@ -85,7 +86,7 @@ public class HttpUtils {
      * @param request 请求
      * @return 参数map
      */
-    public Map<String, String> getParams(HttpServletRequest request) {
+    public static Map<String, String> getParams(HttpServletRequest request) {
         Map<String, String> params = new HashMap<>(10);
         try {
             Enumeration<String> names = request.getParameterNames();
@@ -107,7 +108,7 @@ public class HttpUtils {
      * @param request 请求
      * @return 头部map
      */
-    public Map<String, String> getHeaders(HttpServletRequest request) {
+    public static Map<String, String> getHeaders(HttpServletRequest request) {
         Map<String, String> headers = new HashMap<>(10);
 
         Enumeration headerNames = request.getHeaderNames();
@@ -127,7 +128,7 @@ public class HttpUtils {
      * @param response 返回
      * @return 头部map
      */
-    public Map<String, String> getHeaders(HttpServletResponse response) {
+    public static Map<String, String> getHeaders(HttpServletResponse response) {
         Map<String, String> headers = new HashMap<>(10);
 
         Collection<String> headerNames = response.getHeaderNames();
@@ -144,7 +145,7 @@ public class HttpUtils {
      * @param request 请求
      * @return 参数名称
      */
-    public Set<String> getParamNames(HttpServletRequest request) {
+    public static Set<String> getParamNames(HttpServletRequest request) {
         return getParams(request).keySet();
     }
 
@@ -155,7 +156,7 @@ public class HttpUtils {
      * @param queryString query string
      * @return 参数map
      */
-    public Map<String, String> getParams(String queryString) {
+    public static Map<String, String> getParams(String queryString) {
         queryString = StringUtils.trimToNull(queryString);
         Map<String, String> params = new HashMap<>();
         for (String paramKV : StringUtils.split(queryString, AND_SEPARATOR)) {
@@ -186,7 +187,7 @@ public class HttpUtils {
      * @param part 文件part
      * @return 文件名称
      */
-    public String getFilename(final Part part) {
+    public static String getFilename(final Part part) {
         for (String content : part.getHeader(CONTENT_DISPOSITION).split(HEADER_SEPARATOR)) {
             if (content.trim().startsWith(FILENAME)) {
                 return content.substring(
@@ -204,7 +205,7 @@ public class HttpUtils {
      * @param cookieName cookie名称
      * @return Cookie
      */
-    public Cookie findCookieByName(HttpServletRequest request, String cookieName) {
+    public static Cookie findCookieByName(HttpServletRequest request, String cookieName) {
         Cookie[] cookies = request.getCookies();
         if (null != cookies) {
             for (Cookie cookie : cookies) {
@@ -223,7 +224,7 @@ public class HttpUtils {
      * @param cookingName cookie名称
      * @return cookie值
      */
-    public String findCookieValue(HttpServletRequest request, String cookingName) {
+    public static String findCookieValue(HttpServletRequest request, String cookingName) {
         String cookieValue = request.getParameter(cookingName);
         if (!StringUtils.isBlank(cookieValue)) {
             return cookieValue;
@@ -241,7 +242,7 @@ public class HttpUtils {
      * @param request 请求
      * @return cookie路径
      */
-    public String getCookiePath(HttpServletRequest request) {
+    public static String getCookiePath(HttpServletRequest request) {
         return request.getContextPath() + PATH_SEPARATOR;
     }
 
@@ -256,7 +257,7 @@ public class HttpUtils {
      * @param maxAge      cookie过期时间（秒）
      * @return Cookie
      */
-    public Cookie createCookie(String cookieName, String cookieValue, boolean isSecure
+    public static Cookie createCookie(String cookieName, String cookieValue, boolean isSecure
             , String path, String domain, int maxAge) {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setSecure(isSecure);
@@ -278,7 +279,7 @@ public class HttpUtils {
      * @param maxAge       cookie过期时间（秒）
      * @param cookieValue  cookie值
      */
-    public void addCookies(HttpServletRequest request, HttpServletResponse response
+    public static void addCookies(HttpServletRequest request, HttpServletResponse response
             , String cookieName, String cookieDomain, int maxAge, String cookieValue) {
         addCookies(request, response, cookieName, cookieDomain, maxAge, cookieValue, null);
     }
@@ -294,7 +295,7 @@ public class HttpUtils {
      * @param cookieValue  cookie值
      * @param cookiePath   cookie路径
      */
-    public void addCookies(HttpServletRequest request, HttpServletResponse response, String cookieName
+    public static void addCookies(HttpServletRequest request, HttpServletResponse response, String cookieName
             , String cookieDomain, int maxAge, String cookieValue, String cookiePath) {
         cookiePath = null == cookiePath ? getCookiePath(request) : cookiePath;
         if (StringUtils.isBlank(cookieDomain)) {
@@ -319,7 +320,7 @@ public class HttpUtils {
      * @param ignoredParamNames 忽略的参数名称集合
      * @return query string
      */
-    public String getQueryString(Map<String, String> params, Collection<String> ignoredParamNames) {
+    public static String getQueryString(Map<String, String> params, Collection<String> ignoredParamNames) {
         if (CollectionUtils.isEmpty(params)) {
             return EMPTY_STR;
         }
@@ -352,7 +353,7 @@ public class HttpUtils {
      * @param charset 字符集
      * @return 编码后的子串
      */
-    private String encode(String str, String regex, String charset) {
+    private static String encode(String str, String regex, String charset) {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(str);
         StringBuffer b = new StringBuffer();
