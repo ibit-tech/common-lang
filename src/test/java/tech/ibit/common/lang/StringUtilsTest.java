@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * StringUtils测试用例
  *
- * @author IBIT程序猿
+ * @author iBit程序猿
  */
 public class StringUtilsTest {
 

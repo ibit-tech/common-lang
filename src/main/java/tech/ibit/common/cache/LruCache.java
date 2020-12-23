@@ -3,7 +3,7 @@ package tech.ibit.common.cache;
 /**
  * LRU缓存
  *
- * @author IBIT程序猿
+ * @author iBit程序猿
  */
 public class LruCache<K, V> extends MemCache<K, V> {
 

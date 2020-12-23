@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 字符串工具类
  *
- * @author IBIT程序猿
+ * @author iBit程序猿
  */
 public class StringUtils extends org.apache.commons.lang.StringUtils {
 

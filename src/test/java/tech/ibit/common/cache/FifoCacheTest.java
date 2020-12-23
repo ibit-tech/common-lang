@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * FifoCacheTest
  *
- * @author IBIT程序猿
+ * @author iBit程序猿
  */
 public class FifoCacheTest {
 

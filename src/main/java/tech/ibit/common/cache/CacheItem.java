@@ -5,14 +5,14 @@ import java.lang.ref.SoftReference;
 /**
  * 缓存对象
  *
- * @author IBIT程序猿
+ * @author iBit程序猿
  */
 class CacheItem<T> extends SoftReference<T> {
 
     /**
      * 获取时间
      */
-    private long expiredTime;
+    private final long expiredTime;
 
     /**
      * 缓存对象

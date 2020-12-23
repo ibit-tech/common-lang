@@ -8,9 +8,8 @@ import java.util.Map;
  *
  * @param <K> 键模板类型
  * @param <V> 值模板类型
- * @author IBIT程序猿
+ * @author iBit程序猿
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
 class LinkedHashCache<K, V> extends LinkedHashMap<K, CacheItem<V>> {
 
     /**

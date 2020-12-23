@@ -1,11 +1,14 @@
 package tech.ibit.common.collection;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * 集合工具类
  *
- * @author IBIT程序猿
+ * @author iBit程序猿
  */
 public class CollectionUtils {
 
@@ -21,13 +24,15 @@ public class CollectionUtils {
      * @param <V>      值类型
      * @return Map
      */
-    public static <T, V> Map<T, V> toMap(List<V> list, IdGetter<T, V> idGetter) {
+    public static <T, V> Map<T, V> toMap(List<V> list, Function<V, T> idGetter) {
         if (isEmpty(list)) {
             return Collections.emptyMap();
         }
-        Map<T, V> result = new HashMap<>(list.size());
-        list.forEach(obj -> result.put(idGetter.get(obj), obj));
-        return result;
+        return list.stream().collect(Collectors.toMap(
+                idGetter,
+                Function.identity(),
+                (t1, t2) -> t2
+        ));
     }
 
     /**
@@ -39,13 +44,16 @@ public class CollectionUtils {
      * @param <V>      值类型
      * @return LinkedMap
      */
-    public static <T, V> Map<T, V> toLinkedMap(List<V> list, IdGetter<T, V> idGetter) {
+    public static <T, V> Map<T, V> toLinkedMap(List<V> list, Function<V, T> idGetter) {
         if (isEmpty(list)) {
             return Collections.emptyMap();
         }
-        Map<T, V> result = new LinkedHashMap<>(list.size());
-        list.forEach(obj -> result.put(idGetter.get(obj), obj));
-        return result;
+        return list.stream().collect(Collectors.toMap(
+                idGetter,
+                Function.identity(),
+                (t1, t2) -> t2,
+                LinkedHashMap::new
+        ));
     }
 
     /**
@@ -61,14 +69,10 @@ public class CollectionUtils {
         if (isEmpty(map) || isEmpty(ids)) {
             return Collections.emptyList();
         }
-        List<V> result = new ArrayList<>(ids.size());
-        ids.forEach(id -> {
-            V v = map.get(id);
-            if (null != v) {
-                result.add(v);
-            }
-        });
-        return result;
+        return ids.stream()
+                .filter(id -> null != map.get(id))
+                .map(map::get)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -80,17 +84,15 @@ public class CollectionUtils {
      * @param <V>      值类型
      * @return 分组后Map
      */
-    public static <T, V> Map<T, List<V>> grouping(List<V> list, IdGetter<T, V> idGetter) {
+    public static <T, V> Map<T, List<V>> grouping(List<V> list, Function<V, T> idGetter) {
         if (isEmpty(list)) {
             return Collections.emptyMap();
         }
-        Map<T, List<V>> result = new HashMap<>(list.size());
-        list.forEach(obj -> {
-            T id = idGetter.get(obj);
-            result.putIfAbsent(id, new ArrayList<>());
-            result.get(id).add(obj);
-        });
-        return result;
+        return list.stream().collect(
+                Collectors.groupingBy(
+                        idGetter,
+                        Collectors.toList()
+                ));
     }
 
     /**
@@ -102,17 +104,16 @@ public class CollectionUtils {
      * @param <V>      值类型
      * @return 分组后LinkedMap
      */
-    public static <T, V> Map<T, List<V>> groupingToLinkedMap(List<V> list, IdGetter<T, V> idGetter) {
+    public static <T, V> Map<T, List<V>> groupingToLinkedMap(List<V> list, Function<V, T> idGetter) {
         if (isEmpty(list)) {
             return Collections.emptyMap();
         }
-        Map<T, List<V>> result = new LinkedHashMap<>();
-        list.forEach(obj -> {
-            T id = idGetter.get(obj);
-            result.putIfAbsent(id, new ArrayList<>());
-            result.get(id).add(obj);
-        });
-        return result;
+        return list.stream().collect(
+                Collectors.groupingBy(
+                        idGetter,
+                        LinkedHashMap::new,
+                        Collectors.toList()
+                ));
     }
 
     /**
@@ -125,18 +126,7 @@ public class CollectionUtils {
      * @return 子Map
      */
     public static <T, V> Map<T, V> getSubMap(Map<T, V> map, List<T> ids) {
-
-        if (isEmpty(map) || isEmpty(ids)) {
-            return Collections.emptyMap();
-        }
-        Map<T, V> result = new HashMap<>(ids.size());
-        ids.forEach(id -> {
-            V v = map.get(id);
-            if (null != v) {
-                result.put(id, v);
-            }
-        });
-        return result;
+        return getSubMap(map, ids, HashMap::new);
     }
 
     /**
@@ -149,10 +139,26 @@ public class CollectionUtils {
      * @return 子LinkedMap
      */
     public static <T, V> Map<T, V> getSubLinkedMap(Map<T, V> map, List<T> ids) {
+        return getSubMap(map, ids, LinkedHashMap::new);
+    }
+
+    /**
+     * 获取子LinkedMap
+     *
+     * @param map        map
+     * @param ids        键列表
+     * @param mapFactory map工厂
+     * @param <T>        键类型
+     * @param <V>        值类型
+     * @param <M>        map类型
+     * @return 子LinkedMap
+     */
+    private static <T, V, M extends Map<T, V>> Map<T, V> getSubMap(Map<T, V> map, List<T> ids
+            , Supplier<M> mapFactory) {
         if (isEmpty(map) || isEmpty(ids)) {
             return Collections.emptyMap();
         }
-        Map<T, V> result = new LinkedHashMap<>();
+        Map<T, V> result = mapFactory.get();
         ids.forEach(id -> {
             V v = map.get(id);
             if (null != v) {
@@ -168,7 +174,7 @@ public class CollectionUtils {
      * @param collection 集合
      * @return 判断结果
      */
-    public static boolean isEmpty(Collection collection) {
+    public static boolean isEmpty(Collection<?> collection) {
         return null == collection || collection.isEmpty();
     }
 
@@ -178,7 +184,7 @@ public class CollectionUtils {
      * @param collection 集合
      * @return 判断结果
      */
-    public static boolean isNotEmpty(Collection collection) {
+    public static boolean isNotEmpty(Collection<?> collection) {
         return !isEmpty(collection);
     }
 
@@ -188,7 +194,7 @@ public class CollectionUtils {
      * @param map Map
      * @return 判断结果
      */
-    public static boolean isEmpty(Map map) {
+    public static boolean isEmpty(Map<?, ?> map) {
         return null == map || map.isEmpty();
     }
 
@@ -198,7 +204,7 @@ public class CollectionUtils {
      * @param map Map
      * @return 判断结果
      */
-    public static boolean isNotEmpty(Map map) {
+    public static boolean isNotEmpty(Map<?, ?> map) {
         return !isEmpty(map);
     }
 

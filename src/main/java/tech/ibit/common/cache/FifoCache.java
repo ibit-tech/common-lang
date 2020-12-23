@@ -3,7 +3,7 @@ package tech.ibit.common.cache;
 /**
  * FIFO缓存
  *
- * @author IBIT程序猿
+ * @author iBit程序猿
  */
 public class FifoCache<K, V> extends MemCache<K, V> {
 

@@ -3,7 +3,7 @@ package tech.ibit.common.cache;
 /**
  * 内存缓存，包装 LinkedHashCache
  *
- * @author IBIT程序猿
+ * @author iBit程序猿
  */
 public class MemCache<K, V> {
 

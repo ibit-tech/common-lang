@@ -4,7 +4,7 @@ package tech.ibit.common.lang;
 /**
  * 数字工具类
  *
- * @author IBIT程序猿
+ * @author iBit程序猿
  */
 public class NumericUtils {
 
